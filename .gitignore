@@ -1,0 +1,6 @@
+Frontend/node_modules
+Frontend/package.json
+cache/
+Backend-C#/SAPExtractorAPI/.vs/SAPExtractorAPI/v16/.suo
+Backend-C#/SAPExtractorAPI/.vs/
+Backend-C\#/SAPExtractorAPI/SAPExtractorAPI/Config/Web.config

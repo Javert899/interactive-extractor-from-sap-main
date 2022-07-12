@@ -1,0 +1,127 @@
+<igx-stepper #stepper [linear]="true" style="width: 95vw;" (activeStepChanged)="handleActiveStepChanged($event)">
+
+  <ng-template igxStepActiveIndicator>
+    <igx-icon>edit</igx-icon>
+  </ng-template>
+
+  <igx-step #step1 [isValid]="isValid">
+        <span igxStepTitle>Step 1: Document Type Selection</span>
+    <div igxStepContent>
+
+
+      <igx-input-group type="search" class="offset">
+        <igx-prefix>
+            <igx-icon *ngIf="searchText.length === 0">search</igx-icon>
+            <igx-icon *ngIf="searchText.length > 0" (click)="clearSearch()">clear</igx-icon>
+        </igx-prefix>
+
+        <input #search1 id="search1" igxInput placeholder="Search" [(ngModel)]="searchText" (ngModelChange)="grid.findNext(searchText, caseSensitive, exactMatch)"
+            (keydown)="searchKeyDown($event)" />
+
+        <igx-suffix *ngIf="searchText.length > 0">
+            <div class="resultsText" *ngIf="grid.lastSearchInfo">
+                <span *ngIf="grid.lastSearchInfo.matchInfoCache.length > 0">
+                    {{ grid.lastSearchInfo.activeMatchIndex + 1 }} of {{ grid.lastSearchInfo.matchInfoCache.length }}
+                    results
+                </span>
+                <span *ngIf="grid.lastSearchInfo.matchInfoCache.length === 0">
+                    No results
+                </span>
+            </div>
+            <div class="chips">
+                <igx-chips-area>
+                    <igx-chip (click)="updateSearch()" [color]="caseSensitive? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                        <span>Case Sensitive</span>
+                    </igx-chip>
+                    <igx-chip (click)="updateExactSearch()" [color]="exactMatch? 'lightgrey' : 'rgba(0, 0, 0, .04)'">
+                        <span>Exact Match</span>
+                    </igx-chip>
+                </igx-chips-area>
+            </div>
+            <div class="searchButtons">
+                <button igxButton="icon" igxRipple [igxRippleCentered]="true" (click)="grid.findPrev(searchText, caseSensitive, exactMatch)">
+                    <igx-icon family="material">navigate_before</igx-icon>
+                </button>
+                <button igxButton="icon" igxRipple [igxRippleCentered]="true" (click)="grid.findNext(searchText, caseSensitive, exactMatch)">
+                    <igx-icon family="material">navigate_next</igx-icon>
+                </button>
+            </div>
+        </igx-suffix>
+    </igx-input-group>
+
+
+
+
+      <igx-grid #grid1 [data]="data" [autoGenerate]="false" [allowFiltering]="true" height="500px"
+      rowSelection="single" (rowSelectionChanging)="handleRowSelection($event)">
+        <igx-column field="Id" [dataType]="'string'" [sortable]="true" header="Neo4J ID" width="200px"></igx-column>
+        <igx-column field="Name" [dataType]="'string'" [sortable]="true" header="Name" [filterable]="true"></igx-column>
+        <igx-column field="Description" [dataType]="'string'" [sortable]="true" header="Description" [filterable]="false"></igx-column>
+        <igx-column field="ENTRYCOUNT" [dataType]="'number'" [sortable]="true" header="Count" [filterable]="false"></igx-column>
+        <igx-paginator [perPage]="10">
+        </igx-paginator>
+      </igx-grid>
+
+      <div class="sample-step-actions">
+        <button igxButton="raised" (click)="HandleNextStep()"
+          [disabled]="!isValid && stepper.linear">NEXT</button>
+      </div>
+    </div>
+  </igx-step>
+
+  <igx-step #step2>
+    <span igxStepTitle>Step 2: Document Type Creation Tables</span>
+    <div igxStepContent>
+      <app-extractionstep1 #extractionstep1>
+
+      </app-extractionstep1>
+
+      <div class="sample-step-actions">
+        <button igxButton="raised" (click)="stepper.prev()">Previous</button>
+        <button igxButton="raised" (click)="stepper.next()">Next</button>
+      </div>
+    </div>
+  </igx-step>
+
+  <igx-step #step3 [isValid]="isValidStep3">
+    <span igxStepTitle>Step 3: Relevant Tables</span>
+    <div igxStepContent>
+      <div style="height: 65vh;">
+
+        <app-extractionstep2 #extractionstep2>
+
+        </app-extractionstep2>
+      </div>
+      <div class="sample-step-actions">
+        <button igxButton="raised" (click)="stepper.prev()">Previous</button>
+        <button igxButton="raised" (click)="stepper.next()"
+          [disabled]="!isValidStep3 && stepper.linear">Next</button>
+      </div>
+    </div>
+  </igx-step>
+
+  <igx-step #step4 [optional]="true">
+    <span igxStepTitle>Step 4: Parameter Tuning</span>
+    <span igxStepSubTitle>(optional)</span>
+    <div igxStepContent>
+      <app-extractionstep3 #extractionstep3>
+
+      </app-extractionstep3>
+      <div class="sample-step-actions">
+        <button igxButton="raised" (click)="stepper.prev()">Previous</button>
+        <button igxButton="raised" (click)="stepper.next()">Next</button>
+      </div>
+    </div>
+  </igx-step>
+
+  <igx-step #step5 [isValid]="isValidStep5">
+    <span igxStepTitle>Step 5: Event Log Extraction</span>
+    <div igxStepContent>
+      <h3> The Extraction has been started. You can finde the result on the server.</h3>
+      <div class="sample-step-actions">
+        <button igxButton="raised" (click)="stepper.prev()">Previous</button>
+        <button igxButton="raised" (click)="stepper.next()">Homescreen</button>
+      </div>
+    </div>
+  </igx-step>
+</igx-stepper>

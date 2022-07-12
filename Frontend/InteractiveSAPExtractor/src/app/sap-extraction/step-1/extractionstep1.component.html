@@ -1,0 +1,47 @@
+<igx-tabs>
+    <igx-tab-item>
+      <igx-tab-header>
+        <igx-icon igxTabHeaderIcon>bubble_chart</igx-icon>
+        <span igxTabHeaderLabel>Graph</span>
+      </igx-tab-header>
+      <igx-tab-content>
+        <div id="mynetwork" #siteConfigNetwork  style="height: 600px;">
+    
+        </div>
+      </igx-tab-content>
+    </igx-tab-item>
+    <igx-tab-item>
+      <igx-tab-header>
+        <igx-icon igxTabHeaderIcon>table_view</igx-icon>
+        <span igxTabHeaderLabel>Table</span>
+      </igx-tab-header>
+      <igx-tab-content>
+        <div style="height: 600px;">
+            <igx-grid #creationTableNodeGrid [data]="data" [autoGenerate]="false" [allowFiltering]="true" height="500px"
+            [rowSelection]="'multiple'" [primaryKey]="'Id'">
+              <igx-column field="Id" [dataType]="'string'" [sortable]="true" header="Neo4J ID" width="200px"></igx-column>
+              <igx-column field="Name" [dataType]="'string'" [sortable]="true" header="Name" [filterable]="true"></igx-column>
+              <igx-column field="Description" [dataType]="'string'" [sortable]="true" header="Description" [filterable]="false"></igx-column>
+              <igx-column field="ENTRYCOUNT" [dataType]="'number'" [sortable]="true" header="Count" [filterable]="false"></igx-column>
+              <igx-paginator [perPage]="10">
+              </igx-paginator>
+            </igx-grid>
+        </div>
+      </igx-tab-content>
+    </igx-tab-item>
+  </igx-tabs>
+
+
+
+
+
+
+<igx-dialog #nodeInfoDialog
+    title="Notification"
+    message="Your email has been sent successfully!"
+    leftButtonLabel="OK"
+    (leftButtonSelect)="nodeInfoDialog.close()">
+</igx-dialog>
+
+
+<igx-linear-bar #progressBar [value]="100" type="info" [striped]="true"></igx-linear-bar>
